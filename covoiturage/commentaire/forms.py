@@ -6,20 +6,20 @@ from evaluation.models import Evaluation
 class CommentaireForm(forms.ModelForm):
     class Meta:
         model = Commentaire
-        fields = ['evaluation', 'texte']  # 'date_commentaire' n'est pas nécessaire ici
+        fields = ['evaluation', 'texte']  
         widgets = {
             'texte': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
 
-    # Validation de la longueur du texte (min et max)
+    
     def clean_texte(self):
         texte = self.cleaned_data.get('texte')
 
-        # Si tu veux éviter les commentaires trop courts
+        
         if texte and len(texte) < 10:
             raise ValidationError("Le commentaire doit contenir au moins 10 caractères.")
         
-        # Si tu veux limiter la longueur du commentaire
+    
         if texte and len(texte) > 500:
             raise ValidationError("Le commentaire ne peut pas dépasser 500 caractères.")
         
@@ -35,13 +35,13 @@ class CommentaireForm(forms.ModelForm):
         
         return evaluation
 
-    # Validation d'autres conditions : par exemple vérifier que l'utilisateur a effectué l'évaluation
+    
     def clean(self):
         cleaned_data = super().clean()
         evaluation = cleaned_data.get('evaluation')
-        utilisateur = self.instance.evaluation.evaluateur if self.instance else None  # L'utilisateur qui a effectué l'évaluation
+        utilisateur = self.instance.evaluation.evaluateur if self.instance else None  
 
-        if evaluation and utilisateur != self.user:  # Vérifie si l'utilisateur qui soumet est bien celui qui a fait l'évaluation
+        if evaluation and utilisateur != self.user: 
             raise ValidationError("Vous ne pouvez commenter que vos propres évaluations.")
         
         return cleaned_data

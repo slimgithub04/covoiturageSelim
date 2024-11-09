@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Evaluation, Trajet
 
 class NoteFilter(admin.SimpleListFilter):
@@ -29,7 +30,7 @@ class EvaluationAdmin(admin.ModelAdmin):
     )
     
     def details_link(self, obj):
-        # Creates a clickable link for quick navigation to the edit page of the evaluation
+        
         return format_html('<a href="/admin/app_name/evaluation/{}/change/">Voir détails</a>', obj.id)
     details_link.short_description = 'Action'
 

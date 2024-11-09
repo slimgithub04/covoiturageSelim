@@ -38,12 +38,10 @@ class CommentaireAdmin(admin.ModelAdmin):
     )
 
     def texte_excerpt(self, obj):
-        # Displays the first 30 characters of the comment for an overview in the list display
         return (obj.texte[:30] + '...') if len(obj.texte) > 30 else obj.texte
     texte_excerpt.short_description = 'Extrait du texte'
 
     def details_link(self, obj):
-        # Creates a clickable link for quick access to detailed view/editing
         return format_html('<a href="/admin/app_name/commentaire/{}/change/">Voir détails</a>', obj.id)
     details_link.short_description = 'Action'
 
